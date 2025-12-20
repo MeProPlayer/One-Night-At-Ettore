@@ -23,8 +23,8 @@ import gifAnimation.*;
 Gif camera_static;
 SoundFile menu_ost, door, office_ost, camera_swap, monitor_up_down, edger_moan, ETTORE_SCREAM;
 String word, 
-       cam_path = "cam/";
-PImage ETTORE,
+       cam_path = "cam/", player_hand_path = "player_hand/";
+PImage ETTORE, player_hand, player_hand_clenched, plushie_test,
        menu_background, office, camera,
        left_door, right_door,
        flasher, Flasher_jumpscare, Flasher_jumpscare_rare,
@@ -62,7 +62,7 @@ int constnt = 1000, previous_cam = 0,
     previous_cam_index = 0;
 
 enum state{
-  menu, info, settings, game;
+  menu, info, settings, game, session, test;
 }
 state current_state = state.menu;
 
@@ -84,6 +84,8 @@ void setup() {
   cam_pan_ind = width/2;
   cam_pos = cam_pan_ind;
   
+  plushie_posX = width/2;
+  plushie_posY = height/1.5;
   //load everything in a separate thread
   thread("load_assets");
 }
@@ -101,6 +103,10 @@ void load_assets(){
   camera_swap = new SoundFile(this, cam_path +  "camera_change.wav");
   monitor_up_down = new SoundFile(this, cam_path +  "monitor_up.wav");
   edger_moan = new SoundFile(this, "moan.wav");
+  
+  player_hand = loadImage(player_hand_path + "player_hand.png");
+  player_hand_clenched = loadImage(player_hand_path + "player_hand_clenched.png");
+  plushie_test = loadImage(player_hand_path + "plushie_test.png");
   
   flasher = loadImage("the_flasher.png");
   Flasher_jumpscare = loadImage("flasher_jumpscare.png");
@@ -228,6 +234,7 @@ void draw(){
     return;
   }
   
+  if(current_state != state.test) cursor();
   println("INPUT CHECK\ngame status: " + current_state + "\tassets:" + assets_loaded);
   
   frameRate(frame_rate);
@@ -246,6 +253,8 @@ void draw(){
   //println("ratio: " + res_ratio);
   
   switch(current_state){
+    case test: test(); break;
+
     case menu: menu(); break;
       
     case settings: game_settings(); break;

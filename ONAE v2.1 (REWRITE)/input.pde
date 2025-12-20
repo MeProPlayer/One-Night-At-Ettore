@@ -117,6 +117,10 @@ void keyPressed(){
   door.amp(volume);
   monitor_up_down.amp(volume);
   
+  if(key == 't' || key == 'T' && current_state == state.menu){ //test player hand
+    current_state = state.test;
+  }
+  
   if(key == ESC) {
     key = 0;  
     quit_menu = !quit_menu;
@@ -131,6 +135,7 @@ void keyPressed(){
   if((key == 'i' || key == 'I') && current_state == state.menu){
     current_state = state.info;
   }
+  
   //reset to menu
   if(key == BACKSPACE && current_state != state.menu){
     reset();
