@@ -1,17 +1,17 @@
 float cam_pan_ind, cam_pos;
 
-enum cam{
+enum cam {
   bedroom, livingroom, bath_hall, m_restroom, w_restroom, service_room,
   closet, left_hall, right_hall;
 }
 cam current_cam = cam.bedroom;
 
-void cam_condition(int n_cam){
+void cam_condition(int n_cam) {
   if (n_cam != previous_cam_index) {
     camera_swap.amp(volume);
     camera_swap.play();
 
-    switch(n_cam){
+    switch (n_cam) {
       case 0: current_cam = cam.bedroom; break;
       case 1: current_cam = cam.livingroom; break;
       case 2: current_cam = cam.left_hall; break;
@@ -28,58 +28,63 @@ void cam_condition(int n_cam){
   }
 }
 
-void camera_overlay(PImage camera){
-  float min_pos = width * (766.0/1920.0),
-        max_pos = width * (1155.0/1920.0);
-  if(mousePressed && 
-    mouseX >= min_pos &&  mouseX <= max_pos && 
-    mouseY >= height/7 - (40 * res_ratio) && mouseY <= height/7 + (40 * res_ratio)){
+void camera_overlay(PImage camera) {
+  float min_pos = width * (766.0 / 1920.0),
+        max_pos = width * (1155.0 / 1920.0);
+
+  if (mousePressed && 
+      mouseX >= min_pos &&  mouseX <= max_pos && 
+      mouseY >= height / 7 - (40 * res_ratio) && mouseY <= height / 7 + (40 * res_ratio)) {
+    
     cam_pan_ind = constrain(mouseX, min_pos, max_pos);
-    cam_pos = map(cam_pan_ind, min_pos, max_pos, width/2 + width/5, width/2 - width/5);
+    cam_pos = map(cam_pan_ind, min_pos, max_pos, width / 2 + width / 5, width / 2 - width / 5);
   }
   
   image(camera, cam_pos, height/2, img_width, img_height);
   draw_ettore();
-  if(edger_attack){
+
+  if (edger_attack) {
     image(edger, width/2, height/2); 
   }
+
   //fade in effect
   float static_timer = millis() - previous_cam;
-  if(static_timer < 1000){
+  if (static_timer < 1000) {
     camera_static_opacity = int(map(static_timer, 0, 1000, 255, 100));
   }
-  else{
+  else {
     camera_static_opacity = 100;
   }
 
   tint(255, camera_static_opacity);
-  image(camera_static, width/2, height/2);
+  image(camera_static, width / 2, height / 2);
   
   //camera pan     
   stroke(255);
   strokeWeight(3);
-  line(768, height/7, 1152, height/7);
+  line(768, height / 7, 1152, height / 7);
   noFill();
-  rect(cam_pan_ind, height/7, 40 * res_ratio, 40 * res_ratio);
+  rect(cam_pan_ind, height / 7, 40 * res_ratio, 40 * res_ratio);
   
   noStroke();
 }
 
-void _camera(){
-  float x_offset = 0.835;
-  textSize(50 * res_ratio * 1.5);
+void _camera() {
+  float x_offset = 0.835; // numero magico per il doc (non ricordo da che divisione lo tirata fuori)
+
+  textSize(60 * res_ratio);
   textAlign(RIGHT);
   
-  //glitched sound effect
-  if(edger_attack && !is_flasher_jumpscare){
+  // glitched sound effect
+  if (edger_attack && !is_flasher_jumpscare && !edger_moan.isPlaying()) {
     edger_moan.play();
   }
-  else{
+  else {
     edger_moan.stop();
   }
 
-  //bedroom
-  switch(current_cam){
+  // bedroom
+  switch (current_cam) {
     case bedroom:
       camera_overlay(cam_Bedroom);
       text("cam_bedroom", width * x_offset, height/9.75);
@@ -124,6 +129,7 @@ void _camera(){
       camera_overlay(cam_right_hall);
       text("cam_right_hall", width * x_offset, height/9.75);
       break;
+
     default: break;
   }
   noTint();
