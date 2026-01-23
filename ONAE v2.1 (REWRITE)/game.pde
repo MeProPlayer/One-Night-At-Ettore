@@ -70,7 +70,7 @@ void game() {
   }
   office_posy = map(mouseY, 0, height, height/2 * cam_scale, height/2 / cam_scale); 
 
-  image(office, office_posx, office_posy, img_width*cam_scale, img_height*cam_scale);
+  image(office, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
 
   //draw ettore at the doors
   switch (ettore_room) { // augh codice duplicato augh!
@@ -143,9 +143,7 @@ void game() {
     ettore_jumpscare();
   }
 
-  fill(0);
-  rect(black_bar_offset/2, height/2, black_bar_offset, height);
-  rect(width - black_bar_offset/2, height/2, black_bar_offset, height);
+  draw_black_bars();
 
   if (door_cooldown >= 1) {
     door_cooldown = 0;
@@ -157,6 +155,12 @@ void game() {
 
   // debug();
 
+}
+
+void draw_black_bars() {
+  fill(0);
+  rect(black_bar_offset/2, height/2, black_bar_offset, height);
+  rect(width - black_bar_offset/2, height/2, black_bar_offset, height);
 }
 
 void debug() {

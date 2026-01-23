@@ -46,74 +46,76 @@ void movement(byte chance) {
 }
 
 void draw_ettore() {
-  switch (ettore_room) {
-    case bedroom:
-      if (current_cam == cam.bedroom) {
-        image(ettore_bedroom, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+  if (current_state == state.game) {
+    switch (ettore_room) {
+      case bedroom:
+        if (current_cam == cam.bedroom) {
+          image(ettore_bedroom, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case livingroom: 
-      if (current_cam == cam.livingroom) {
-        image(ettore_livingroom, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case livingroom: 
+        if (current_cam == cam.livingroom) {
+          image(ettore_livingroom, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case left_hall: 
-      if (current_cam == cam.left_hall) {
-        image(ettore_left_hall, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case left_hall: 
+        if (current_cam == cam.left_hall) {
+          image(ettore_left_hall, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case left_door:
-      if (current_cam == cam.left_hall) {  
-        image(ettore_left_door, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case left_door:
+        if (current_cam == cam.left_hall) {  
+          image(ettore_left_door, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case bath_hall:
-      if (current_cam == cam.bath_hall) {
-        image(ettore_bath_hall, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case bath_hall:
+        if (current_cam == cam.bath_hall) {
+          image(ettore_bath_hall, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case m_restroom:
-      if (current_cam == cam.m_restroom) {
-        image(ettore_m_restroom, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case m_restroom:
+        if (current_cam == cam.m_restroom) {
+          image(ettore_m_restroom, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case w_restroom:
-      if (current_cam == cam.w_restroom) {
-        image(ettore_w_restroom, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case w_restroom:
+        if (current_cam == cam.w_restroom) {
+          image(ettore_w_restroom, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case service_room:
-      if (current_cam == cam.service_room) {
-        image(ettore_service_room, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case service_room:
+        if (current_cam == cam.service_room) {
+          image(ettore_service_room, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case closet:
-      if (current_cam == cam.closet) {
-        image(ettore_closet, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case closet:
+        if (current_cam == cam.closet) {
+          image(ettore_closet, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case right_hall:
-      if (current_cam == cam.right_hall) {
-        image(ettore_right_hall, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case right_hall:
+        if (current_cam == cam.right_hall) {
+          image(ettore_right_hall, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    case right_door:
-      if (current_cam == cam.right_hall) {
-        image(ettore_right_door, cam_pos, height/2, img_width, img_height);
-      }
-      break;
+      case right_door:
+        if (current_cam == cam.right_hall) {
+          image(ettore_right_door, cam_pos, height/2, img_width, img_height);
+        }
+        break;
 
-    default: break;
+      default: break;
+    }
   }
 }
 

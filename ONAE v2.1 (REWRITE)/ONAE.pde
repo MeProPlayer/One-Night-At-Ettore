@@ -1,5 +1,5 @@
 /*
-ODO:
+TODO:
   - ettore entity (jumpscare) - fix jumpscare cooldown
   - ettorina entity (maybe 4/20 mode exclusive but idk)
   - custom night (3 night challenges)
@@ -58,17 +58,17 @@ float res_ratio, img_width, img_height,
       volume_pos, camera_static_opacity;
       
 int constnt = 1000, previous_cam = 0,
-    frame_rate = 120, chosen_framerate = 0, framerate[] = {60, 75, 90, 120},
+    chosen_framerate = 0, framerate[] = {60, 75, 90, 120},
     previous_cam_index = 0;
 
 enum state {
-  menu, info, settings, game, session, test;
+  menu, info, settings, game, session, test, tutorial;
 }
 state current_state = state.menu;
 
 void setup() {
   fullScreen(P2D);
-  frameRate(frame_rate);
+  frameRate(framerate[chosen_framerate]);
   
   background(0);
   
@@ -220,8 +220,6 @@ void game_settings() {
   // framerate
   text("Framerate", width * .475, height * .6);
   text(framerate[chosen_framerate], width * .58, height * .6);
-
-  frame_rate = framerate[chosen_framerate];
   
   textSize(60 * res_ratio);
   text("Back to Menu", width/2, height * .9);
@@ -238,7 +236,7 @@ void info() {
   text("Ettore ti slimerà quando\nraggiungerà il tuo ufficio\n\n" +
        "Ettorina vuole uscire dal closet\n\nIl flasher se ne va " +
        "quando alzi il monitor\n\nScrivi il nome di ettore quando esce il " +
-       "flasher",
+       "flasher\n\nProva l'ufficio",
        width / 2, height / 2);
 
   textSize(60 * res_ratio);
@@ -258,18 +256,18 @@ void draw() {
   // if (current_state != state.test) { cursor(); }
   // println("INPUT CHECK\ngame status: " + current_state + "\tassets:" + assets_loaded);
 
-  frameRate(frame_rate);
+  frameRate(framerate[chosen_framerate]);
   rectMode(CENTER);
   background(0);  
   
   if (height / width == 0.5625) {
     is_43 = false;
   }
-  else if (height/width == 0.75) {
+  else if (height / width == 0.75) {
     is_43 = true;
   }
 
-  if (!is_43) { black_bar_offset = width/8; }
+  if (!is_43) { black_bar_offset = width / 8; }
 
   res_ratio = width / 1920.f;
   // println("ratio: " + res_ratio);
@@ -284,15 +282,13 @@ void draw() {
     case info: info(); break;
 
     case game:
-      if (mouseX > black_bar_offset &&
-          mouseX < width - black_bar_offset) {
-
-        on_hitbox = true;
-      }
-      else {
-        on_hitbox = false;
-      }
+      check_mouse_on_blackbar();
       game(); 
+      break;
+
+    case tutorial: 
+      check_mouse_on_blackbar();
+      tutorial(); 
       break;
       
     default: break;
@@ -317,6 +313,17 @@ void draw() {
 
 }
 
+void check_mouse_on_blackbar() {
+  if (mouseX > black_bar_offset &&
+      mouseX < width - black_bar_offset) {
+
+    on_hitbox = true;
+  }
+  else {
+    on_hitbox = false;
+  }
+}
+
 void quit() {
   textSize(60 * res_ratio);
 
@@ -335,7 +342,7 @@ void quit() {
 
 void reset() {
   // master reset
-  cam_pan_ind = width/2;
+  cam_pan_ind = width / 2;
   
   ettore_room = room.bedroom;
 

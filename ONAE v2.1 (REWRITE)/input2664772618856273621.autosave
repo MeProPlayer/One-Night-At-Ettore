@@ -24,7 +24,7 @@ void mousePressed() {
   if (current_state == state.info && mouse_check(780, 1141, 823, 863)) {
     current_state = state.tutorial;
   }
-  if (current_state == state.tutorial && mouse_check(839, 1081, 49, 124)) {
+  if (current_state == state.tutorial && mouse_check(838, 1081, 71, 144)) {
     current_state = state.info;
   }
 
@@ -135,9 +135,6 @@ void keyPressed() {
     }
   }
   
-  door.amp(volume);
-  monitor_up_down.amp(volume);
-  
   // if (key == 't' || key == 'T' && current_state == state.menu) { //test player hand
   //   current_state = state.test;
   // }
@@ -184,13 +181,16 @@ void keyPressed() {
     
     // camera toggle
     if (key == 's' || key == 'S') {
-      if (!edger_attack && current_state != state.tutorial) {
+      if (!edger_attack) {
         edger_chance = (byte)(Math.random() * 21);
 
         if (edger_chance <= edger_ai) {
             edger_attack = true;
             ector_counter = true;
         }
+      }
+
+      if (!flasher_attack && !is_camera) {
       }
 
       monitor_up_down.amp(volume);
