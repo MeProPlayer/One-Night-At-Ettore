@@ -182,7 +182,7 @@ void update_ai() {
     ai_update_time = millis();
 
     ettore_ai = (byte)(timer / 6 * 20) + 1;
-    ettore_max_attack_gap = 4000;
+    ettore_max_attack_gap = 3500;
 
     // flasher_ai = int(timer);
     edger_ai = (byte)(timer / 3 + 1);
@@ -206,6 +206,7 @@ void draw_flasher(){
   }
 
   if (is_flasher_jumpscare) {
+    if (!flasher_scream.isPlaying()) { flasher_scream.play(); }
     image(Flasher_jumpscare_rare, width/2, height/2, img_width, img_height);
 
     if(millis() - flasher_jumpscare_timer > 2000){

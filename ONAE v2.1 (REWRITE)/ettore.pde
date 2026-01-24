@@ -125,7 +125,8 @@ void ettore_jumpscare() {
     is_ettore_jumpscare = true;
   }
 
+  if (!ETTORE_SCREAM.isPlaying()) { ETTORE_SCREAM.play(); }
   image(ettore_jumpscare, width / 2, height / 2, img_width, img_height);
 
-  if (millis() - ettore_jumpscare_timer > 5000) { reset(); }
+  if (millis() - ettore_jumpscare_timer > 2500) { reset(); }
 }

@@ -1,6 +1,5 @@
 /*
 TODO:
-  - ettore entity (jumpscare) - fix jumpscare cooldown
   - ettorina entity (maybe 4/20 mode exclusive but idk)
   - custom night (3 night challenges)
   - maybe secret cutscene for 4/20 mode
@@ -17,7 +16,8 @@ import processing.sound.*;
 import gifAnimation.*;
 
 Gif camera_static;
-SoundFile menu_ost, door, office_ost, camera_swap, monitor_up_down, edger_moan, ETTORE_SCREAM;
+SoundFile menu_ost, door, office_ost, camera_swap, monitor_up_down, edger_moan, 
+          ETTORE_SCREAM, flasher_scream;
 String word, 
        ettore_path = "ettore/", cam_path = "cam/", player_hand_path = "player_hand/";
 PImage ETTORE, player_hand, player_hand_clenched, plushie_test,
@@ -97,6 +97,7 @@ void setup() {
 void load_assets() {
   ETTORE        = loadImage("ETTORE.png");
   ETTORE_SCREAM = new SoundFile(this, "ETTORE.wav");
+  flasher_scream = new SoundFile(this, "the_flasher.wav");
   
   camera_static = new Gif(this, cam_path + "camera_static_test_final.gif");
   camera_static.play();
@@ -292,6 +293,16 @@ void draw() {
       break;
       
     default: break;
+  }
+
+  if (current_state != state.game && !menu_ost.isPlaying()) { 
+    office_ost.stop();
+    menu_ost.play();
+  } // se lo metto prima crasha
+
+  if (current_state == state.game && !office_ost.isPlaying()) {
+    menu_ost.stop();
+    office_ost.play();
   }
 
   stroke(225);
