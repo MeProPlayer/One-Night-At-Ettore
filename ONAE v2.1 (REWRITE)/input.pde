@@ -97,10 +97,12 @@ void mousePressed() {
     if (mousePressed && mouseX >= width * .575 - 60 * res_ratio &&  mouseX <= width * .575 + 60 * res_ratio && 
         mouseY >= height * .605 - 40 * res_ratio && mouseY <= height * .605 + 40 * res_ratio) {
         
-      chosen_framerate++;
-      if (chosen_framerate > 3) {
+      chosen_framerate += 1;
+      if (chosen_framerate > MAX_FRAME_COUNT) {
         chosen_framerate = 0;
       }
+      
+      frameRate(framerate[chosen_framerate]);
     }
   }
 }

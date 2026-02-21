@@ -64,8 +64,10 @@ float res_ratio, img_width, img_height,
       volume_pos, camera_static_opacity;
       
 int constnt = 1000, previous_cam = 0,
-    chosen_framerate = 0, framerate[] = { 60, 75, 90, 120, 144, 240 },
     old_width;
+
+byte MAX_FRAME_COUNT = 6, chosen_framerate = 0;
+int[] framerate = new int[]{ 60, 75, 120, 144, 165, 240 }; // bless my java life
 
 enum state {
   menu, info, settings, game, session, test, tutorial;
@@ -318,7 +320,6 @@ void draw() {
   // if (current_state != state.test) { cursor(); }
   // println("INPUT CHECK\ngame status: " + current_state + "\tassets:" + assets_loaded);
 
-  frameRate(framerate[chosen_framerate]);
   rectMode(CENTER);
   background(0);  
   

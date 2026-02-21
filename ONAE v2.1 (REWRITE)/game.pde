@@ -45,7 +45,7 @@ void apply_resolution() {
 }
 
 void game() {
-  timer = (millis() - night_start_timer) / (60000.f * 1.5);
+  timer = (millis() - night_start_timer) / (60000.f * 2);
   // println("TIMER: " + timer);
 
   if (timer >= 6) {
