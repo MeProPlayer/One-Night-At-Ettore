@@ -65,7 +65,6 @@ float res_ratio, img_width, img_height,
       
 int constnt = 1000, previous_cam = 0,
     chosen_framerate = 0, framerate[] = { 60, 75, 90, 120, 144, 240 },
-    previous_cam_index = 0,
     old_width;
 
 enum state {
@@ -420,6 +419,8 @@ void reset() {
   ettore_room = room.bedroom;
 
   quit_menu = false;
+
+  is_celebration = false;
   
   ettore_attack = false;
   flasher_attack = false;
@@ -443,7 +444,7 @@ void reset() {
   door_cooldown = 0;
   timer = 0;
 
-  cam_condition(0);
+  cam_condition(cam.bedroom);
 
   current_state = state.menu;
 }

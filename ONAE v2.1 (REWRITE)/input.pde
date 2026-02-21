@@ -57,41 +57,32 @@ void mousePressed() {
   }
 
   if ((current_state == state.game || current_state == state.tutorial) && is_camera) {
-    // bedroom
     if (mouse_check(348, 514, 445, 498)) {
-      cam_condition(0);
-    } 
-    // living room
+      cam_condition(cam.bedroom);
+    }
     if (mouse_check(310, 548, 499, 833)) {
-      cam_condition(1);
+      cam_condition(cam.livingroom);
     }
-    // left hall
     if (mouse_check(309, 399, 837, 1015)) {
-      cam_condition(2);
+      cam_condition(cam.left_hall);
     }
-    // right hall
     if (mouse_check(618, 708, 837, 1015)) {
-      cam_condition(3);
+      cam_condition(cam.right_hall);
     }
-    // bath hall
     if (mouse_check(552, 614, 499, 714)) {
-      cam_condition(4);
+      cam_condition(cam.bath_hall);
     }
-    // men's restroom
     if (mouse_check(618, 767, 582, 633)) {
-      cam_condition(5);
+      cam_condition(cam.m_restroom);
     }
-    // women's restroom
     if (mouse_check(618, 767, 522, 572)) {
-      cam_condition(6);
+      cam_condition(cam.w_restroom);
     }
-    // service room
     if (mouse_check(618, 768, 636, 715)) {
-      cam_condition(7);
+      cam_condition(cam.service_room);
     }
-    // closet
     if (mouse_check(551, 707, 718, 834)) {
-      cam_condition(8);
+      cam_condition(cam.closet);
     }
   }
 
@@ -115,6 +106,9 @@ void mousePressed() {
 }
 
 void keyPressed() {
+  if ((key == 'c' || key == 'C') && current_state == state.game) {
+    celebrate();
+  }
   // secret jumpscare
   secret = Character.toUpperCase(key);
   if (secret >= 'A' && secret <= 'Z') {

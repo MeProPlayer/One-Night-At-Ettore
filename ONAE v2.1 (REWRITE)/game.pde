@@ -1,5 +1,5 @@
 // folk folk folk sahur
-boolean ettore_attack = false;
+boolean ettore_attack = false, is_celebration = false;
 PImage office_scaled, ettore_left_scaled, ettore_right_scaled;
 float ai_update_time = 0,
       ettore_timer = 0, ettore_cooldown = 0, ettore_attack_timer,
@@ -10,7 +10,8 @@ byte ettore_chance = 21,
      flasher_chance = 21,
      edger_chance = 21;
 int ettore_ai, flasher_ai, edger_ai,
-    night_start_timer = 0;
+    night_start_timer = 0,
+    celebration_start_timer = 0;
 
 void scale_sprites() {
   office_scaled = office.copy();
@@ -214,7 +215,18 @@ void draw_flasher(){
     }
   }
 }
-
+// ora aggiungiamo la roba
 void celebrate() {
-  reset();
+  if (!is_celebration) {
+    celebration_start_timer = millis();
+    is_celebration = true;
+  }
+
+  if (millis() - celebration_start_timer > 4000)  {
+    reset();
+  }
+
+  textSize(75 * res_ratio);
+  fill(255);
+  text("Congrats!", width / 2, height / 2);
 }

@@ -5,25 +5,44 @@ enum cam {
   closet, left_hall, right_hall;
 }
 cam current_cam = cam.bedroom;
+cam previous_cam_index;
 
-void cam_condition(int n_cam) {
-  if (n_cam != previous_cam_index) {
+void cam_condition(cam target_cam) {
+  if (target_cam != previous_cam_index) {
     camera_swap.amp(volume);
     camera_swap.play();
 
-    switch (n_cam) {
-      case 0: current_cam = cam.bedroom; break;
-      case 1: current_cam = cam.livingroom; break;
-      case 2: current_cam = cam.left_hall; break;
-      case 3: current_cam = cam.right_hall; break;
-      case 4: current_cam = cam.bath_hall; break;
-      case 5: current_cam = cam.m_restroom; break;
-      case 6: current_cam = cam.w_restroom; break;
-      case 7: current_cam = cam.service_room; break;
-      case 8: current_cam = cam.closet; break;
+    switch (target_cam) {
+      case bedroom: 
+        current_cam = cam.bedroom; 
+        break;
+      case livingroom: 
+        current_cam = cam.livingroom; 
+        break;
+      case left_hall: 
+        current_cam = cam.left_hall;
+        break;
+      case right_hall: 
+        current_cam = cam.right_hall;
+        break;
+      case bath_hall: 
+        current_cam = cam.bath_hall; 
+        break;
+      case m_restroom: 
+        current_cam = cam.m_restroom; 
+        break;
+      case w_restroom: 
+        current_cam = cam.w_restroom; 
+        break;
+      case service_room: 
+        current_cam = cam.service_room; 
+        break;
+      case closet: 
+        current_cam = cam.closet; 
+        break;
     }
 
-    previous_cam_index = n_cam;
+    previous_cam_index = target_cam;
     previous_cam = (int)millis();
   }
 }
