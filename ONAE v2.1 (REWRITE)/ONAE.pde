@@ -1,5 +1,11 @@
 /*
+NOTA - IL DOC NON PUO' LAVORARE COSI', infatti << Non puoi fare un gioco così, meglio quello di sirra >>
+       traslazione :eoji_robot: "Non hai usato classi"
+       scusa doc 
+       Buon natale
+
 TODO:
+  - ettore entity (jumpscare) - fix jumpscare cooldown
   - ettorina entity (maybe 4/20 mode exclusive but idk)
   - custom night (3 night challenges)
   - maybe secret cutscene for 4/20 mode
@@ -18,7 +24,7 @@ import gifAnimation.*;
 Gif camera_static;
 SoundFile menu_ost, door, office_ost, camera_swap, monitor_up_down, edger_moan, 
           ETTORE_SCREAM, flasher_scream;
-String word, 
+String word,   
        ettore_path = "ettore/", cam_path = "cam/", player_hand_path = "player_hand/";
 PImage ETTORE, player_hand, player_hand_clenched, plushie_test,
        menu_background, office, camera,
@@ -58,8 +64,9 @@ float res_ratio, img_width, img_height,
       volume_pos, camera_static_opacity;
       
 int constnt = 1000, previous_cam = 0,
-    chosen_framerate = 0, framerate[] = {60, 75, 90, 120},
-    previous_cam_index = 0;
+    chosen_framerate = 0, framerate[] = { 60, 75, 90, 120, 144, 240 },
+    previous_cam_index = 0,
+    old_width;
 
 enum state {
   menu, info, settings, game, session, test, tutorial;
@@ -85,6 +92,8 @@ void setup() {
 
   cam_pan_ind = width / 2;
   cam_pos = cam_pan_ind;
+
+  old_width = width;
   
   // plushie_posX = width / 2;
   // plushie_posY = height / 1.5;
@@ -95,62 +104,107 @@ void setup() {
 }
 
 void load_assets() {
-  ETTORE        = loadImage("ETTORE.png");
-  ETTORE_SCREAM = new SoundFile(this, "ETTORE.wav");
+  ETTORE         = loadImage("ETTORE.png");
+  loaded_level++;
+  ETTORE_SCREAM  = new SoundFile(this, "ETTORE.wav");
+  loaded_level++;
   flasher_scream = new SoundFile(this, "the_flasher.wav");
-  
+  loaded_level++;
+
   camera_static = new Gif(this, cam_path + "camera_static_test_final.gif");
   camera_static.play();
+  loaded_level++; 
   
   menu_ost        = new SoundFile(this, "menu_ost.wav");
+  loaded_level++;
   office_ost      = new SoundFile(this, "office_audio.wav");
+  loaded_level++;
   door            = new SoundFile(this, "door.wav");
+  loaded_level++;
   camera_swap     = new SoundFile(this, cam_path +  "camera_change.wav");
+  loaded_level++;
   monitor_up_down = new SoundFile(this, cam_path +  "monitor_up.wav");
+  loaded_level++;
   edger_moan      = new SoundFile(this, "moan.wav");
+  loaded_level++;
   
   player_hand          = loadImage(player_hand_path + "player_hand.png");
+  loaded_level++;
   player_hand_clenched = loadImage(player_hand_path + "player_hand_clenched.png");
+  loaded_level++;
   plushie_test         = loadImage(player_hand_path + "plushie_test.png");
+  loaded_level++;
   
   flasher                = loadImage("the_flasher.png");
+  loaded_level++;
   Flasher_jumpscare      = loadImage("flasher_jumpscare.png");
+  loaded_level++;
   Flasher_jumpscare_rare = loadImage("flasher_jumpscare_rare.png");
+  loaded_level++;
   
   edger = loadImage("ector_cam.jpg");
+  loaded_level++;
   
   menu_background = loadImage("menu_background.png");
+  loaded_level++;
   office          = loadImage("office_test.png");
+  loaded_level++;
   left_door       = loadImage("left_door.png");
+  loaded_level++;
   right_door      = loadImage("right_door.png");
+  loaded_level++;
   camera          = loadImage(cam_path + "camera.png");
+  loaded_level++;
   
   ettore_at_left_door  = loadImage(ettore_path + "ettore_left_door.png");
+  loaded_level++;
   ettore_at_right_door = loadImage(ettore_path + "ettore_right_door.png");
-  
+  loaded_level++;
+
   cam_Bedroom     = loadImage(cam_path + "cam_bedroom.png");
+  loaded_level++;
   cam_Livingroom  = loadImage(cam_path + "cam_livingroom.png");
+  loaded_level++;
   cam_left_hall   = loadImage(cam_path + "cam_left_hall.png");
+  loaded_level++;
   cam_right_hall  = loadImage(cam_path + "cam_right_hall.png");
+  loaded_level++;
   cam_Bath_hall   = loadImage(cam_path + "cam_bath_hall.png");
+  loaded_level++;
   cam_W_restroom  = loadImage(cam_path + "cam_w_restroom.png");
+  loaded_level++;
   cam_M_restroom  = loadImage(cam_path + "cam_m_restroom.png");
+  loaded_level++;
   cam_Serviceroom = loadImage(cam_path + "cam_service_room.png");
+  loaded_level++;
   cam_Closet      = loadImage(cam_path + "cam_closet.png");
+  loaded_level++;
 
   ettore_bedroom      = loadImage(cam_path + "cam_bedroom_ettore.png");
+  loaded_level++;
   ettore_livingroom   = loadImage(cam_path + "cam_livingroom_ettore.png");
+  loaded_level++;
   ettore_bath_hall    = loadImage(cam_path + "cam_bath_hall_ettore.png");
+  loaded_level++;
   ettore_w_restroom   = loadImage(cam_path + "cam_w_restroom_ettore.png");
+  loaded_level++;
   ettore_m_restroom   = loadImage(cam_path + "cam_m_restroom_ettore.png");
+  loaded_level++;
   ettore_service_room = loadImage(cam_path + "cam_service_room_ettore.png");
+  loaded_level++;
   ettore_closet       = loadImage(cam_path + "cam_closet_ettore.png");
+  loaded_level++;
   ettore_left_hall    = loadImage(cam_path + "cam_left_hall_ettore.png");
+  loaded_level++;
   ettore_right_hall   = loadImage(cam_path + "cam_right_hall_ettore.png");
+  loaded_level++;
   ettore_left_door    = loadImage(cam_path + "cam_left_hall_ettore_lDoor.png");
+  loaded_level++;
   ettore_right_door   = loadImage(cam_path + "cam_right_hall_ettore_rDoor.png");
+  loaded_level++;
 
   ettore_jumpscare = loadImage(ettore_path + "ettore_jumpscare.jpg");
+  loaded_level++;
 
   assets_loaded = true;
   apply_resolution();
@@ -250,10 +304,18 @@ void draw() {
     background(0);
     fill(255);
     text("LOADING...", width/2, height/2);
+
+    loading_bar(loaded_level);
     
     return;
   }
-  
+
+  if (old_width != width) {
+    apply_resolution();
+
+    old_width = width;
+  }
+
   // if (current_state != state.test) { cursor(); }
   // println("INPUT CHECK\ngame status: " + current_state + "\tassets:" + assets_loaded);
 

@@ -135,9 +135,6 @@ void keyPressed() {
     }
   }
   
-  door.amp(volume);
-  monitor_up_down.amp(volume);
-  
   // if (key == 't' || key == 'T' && current_state == state.menu) { //test player hand
   //   current_state = state.test;
   // }

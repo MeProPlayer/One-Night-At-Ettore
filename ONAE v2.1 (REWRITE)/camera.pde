@@ -24,7 +24,7 @@ void cam_condition(int n_cam) {
     }
 
     previous_cam_index = n_cam;
-    previous_cam = int(millis());
+    previous_cam = (int)millis();
   }
 }
 
@@ -62,7 +62,7 @@ void camera_overlay(PImage camera) {
   //camera pan     
   stroke(255);
   strokeWeight(3);
-  line(768, height / 7, 1152, height / 7);
+  line(width / (1920f / 768), height / 7, width / (1920f / 1152), height / 7);
   noFill();
   rect(cam_pan_ind, height / 7, 40 * res_ratio, 40 * res_ratio);
   
