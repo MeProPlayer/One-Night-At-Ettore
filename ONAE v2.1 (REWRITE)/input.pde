@@ -25,6 +25,8 @@ void mousePressed() {
     current_state = state.tutorial;
   }
   if (current_state == state.tutorial && mouse_check(839, 1081, 49, 124)) {
+    current_cam = cam.bedroom;
+    is_camera = false;
     current_state = state.info;
   }
 
@@ -88,17 +90,17 @@ void mousePressed() {
 
   if (current_state == state.settings) {
     // settings
-    if (mouseX < width/2 - width/12 + 10 * res_ratio && mouseX > width/2- width/12 - 10 * res_ratio &&
-        mouseY < height/4 + 10 * res_ratio && mouseY > height/4 - 10 * res_ratio) {
+    if (mouseX < width / 2 - width / 12 + 10 * res_ratio && mouseX > width / 2- width / 12 - 10 * res_ratio &&
+        mouseY < height / 4 + 10 * res_ratio && mouseY > height / 4 - 10 * res_ratio) {
 
       show_fps = !show_fps;   
     }
     // framerate
     if (mousePressed && mouseX >= width * .575 - 60 * res_ratio &&  mouseX <= width * .575 + 60 * res_ratio && 
-        mouseY >= height * .605 - 40 * res_ratio && mouseY <= height * .605 + 40 * res_ratio) {
+        mouseY >= height / 3 - 40 * res_ratio && mouseY <= height / 3 + 40 * res_ratio) {
         
       chosen_framerate += 1;
-      if (chosen_framerate > MAX_FRAME_COUNT) {
+      if (chosen_framerate > MAX_FRAME_COUNT - 1) {
         chosen_framerate = 0;
       }
       
@@ -186,7 +188,6 @@ void keyPressed() {
         }
       }
 
-      monitor_up_down.amp(volume);
       monitor_up_down.play();
       is_camera = !is_camera;
 
@@ -207,7 +208,6 @@ void keyPressed() {
     if ((key == 'a' || key == 'A') && 
         (!is_door_cooldown && millis() - door_cooldown_start >= 1000)) {
 
-        door.amp(volume);
         door.play();
         right_door_on = false;
         left_door_on = !left_door_on;
@@ -220,7 +220,6 @@ void keyPressed() {
     if ((key == 'd' || key == 'D') &&
        (!is_door_cooldown && millis() - door_cooldown_start >= 1500)) {
 
-      door.amp(volume);
       door.play();
       left_door_on = false;
       right_door_on = !right_door_on;

@@ -9,10 +9,22 @@ void loading_bar(byte level) {
     rectMode(CORNER);
     rect(
         width / 2 - width / 8,
-        height / 1.7 - height / 40, 
-        map(level, 0, 44, 0, width / 4),
+        height / 1.7 - height / 40,  
+        map(level, 0, 45, 0, width / 4),
         height / 20
     );
 
     rectMode(CENTER);
+}
+
+PImage load_image(String asset_path) {
+    loaded_level++;
+
+    return loadImage(asset_path);
+}
+
+SoundFile load_sound(String asset_path) {
+    loaded_level++;
+
+    return new SoundFile(this, asset_path);
 }

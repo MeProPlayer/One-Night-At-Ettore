@@ -1,21 +1,11 @@
 /*
-NOTA - IL DOC NON PUO' LAVORARE COSI', infatti << Non puoi fare un gioco così, meglio quello di sirra >>
-       traslazione :eoji_robot: "Non hai usato classi"
-       scusa doc 
-       Buon natale
-
 TODO:
-  - ettore entity (jumpscare) - fix jumpscare cooldown
+  - funzione per immagini e gif e soundfiles per caricarli e aumentare la barretta 
+    (del capitalismo) del caricamento all'inizio dello schermo o yes
   - ettorina entity (maybe 4/20 mode exclusive but idk)
   - custom night (3 night challenges)
   - maybe secret cutscene for 4/20 mode
-
-FIX AUDIO VOLUME PLAYING OR IDK
-FIX THE FPS LMAOOO
-
-FIX FERRANDINO ATTACK - manca immagine
-
-AFTER all of this is done maybe optimize (remove useless variables and such)
+  - FIX FERRANDINO ATTACK - manca immagine
 */
 
 import processing.sound.*;
@@ -24,8 +14,10 @@ import gifAnimation.*;
 Gif camera_static;
 SoundFile menu_ost, door, office_ost, camera_swap, monitor_up_down, edger_moan, 
           ETTORE_SCREAM, flasher_scream;
+
 String word,   
        ettore_path = "ettore/", cam_path = "cam/", player_hand_path = "player_hand/";
+
 PImage ETTORE, player_hand, player_hand_clenched, plushie_test,
        menu_background, office, camera,
 
@@ -57,9 +49,8 @@ boolean quit_menu = false,
 
         ask_menu = false;
         
-float res_ratio, img_width, img_height, 
-      timer, flasher_timer = 0, door_cooldown = 0, door_cooldown_start = 0, 
-      volume = 1 /*1 default, max 2 min 0*/,
+float res_ratio, img_width, img_height,
+      timer, flasher_timer = 0, door_cooldown = 0, door_cooldown_start = 0,
       black_bar_offset, office_posx, office_posy,
       volume_pos, camera_static_opacity;
       
@@ -70,7 +61,13 @@ byte MAX_FRAME_COUNT = 6, chosen_framerate = 0;
 int[] framerate = new int[]{ 60, 75, 120, 144, 165, 240 }; // bless my java life
 
 enum state {
-  menu, info, settings, game, session, test, tutorial;
+  menu,
+  info,
+  settings,
+  game,
+  session,
+  test,
+  tutorial; 
 }
 state current_state = state.menu;
 
@@ -105,107 +102,64 @@ void setup() {
 }
 
 void load_assets() {
-  ETTORE         = loadImage("ETTORE.png");
-  loaded_level++;
-  ETTORE_SCREAM  = new SoundFile(this, "ETTORE.wav");
-  loaded_level++;
-  flasher_scream = new SoundFile(this, "the_flasher.wav");
-  loaded_level++;
+  ETTORE = load_image("ETTORE.png");
+  
+  ETTORE_SCREAM  = load_sound("ETTORE.wav");
+  flasher_scream = load_sound("the_flasher.wav");
 
-  camera_static = new Gif(this, cam_path + "camera_static_test_final.gif");
+  camera_static = new Gif(this, cam_path + "camera_static_test_final.gif"); // tanto vale fare una funzione :P
   camera_static.play();
   loaded_level++; 
   
-  menu_ost        = new SoundFile(this, "menu_ost.wav");
-  loaded_level++;
-  office_ost      = new SoundFile(this, "office_audio.wav");
-  loaded_level++;
-  door            = new SoundFile(this, "door.wav");
-  loaded_level++;
-  camera_swap     = new SoundFile(this, cam_path +  "camera_change.wav");
-  loaded_level++;
-  monitor_up_down = new SoundFile(this, cam_path +  "monitor_up.wav");
-  loaded_level++;
-  edger_moan      = new SoundFile(this, "moan.wav");
-  loaded_level++;
+  menu_ost        = load_sound("menu_ost.wav");
+  office_ost      = load_sound("office_audio.wav");
+  door            = load_sound("door.wav");
+  camera_swap     = load_sound(cam_path +  "camera_change.wav");
+  monitor_up_down = load_sound(cam_path +  "monitor_up.wav");
+  edger_moan      = load_sound("moan.wav");
   
-  player_hand          = loadImage(player_hand_path + "player_hand.png");
-  loaded_level++;
-  player_hand_clenched = loadImage(player_hand_path + "player_hand_clenched.png");
-  loaded_level++;
-  plushie_test         = loadImage(player_hand_path + "plushie_test.png");
-  loaded_level++;
+  player_hand          = load_image(player_hand_path + "player_hand.png");
+  player_hand_clenched = load_image(player_hand_path + "player_hand_clenched.png");
+  plushie_test         = load_image(player_hand_path + "plushie_test.png");
   
-  flasher                = loadImage("the_flasher.png");
-  loaded_level++;
-  Flasher_jumpscare      = loadImage("flasher_jumpscare.png");
-  loaded_level++;
-  Flasher_jumpscare_rare = loadImage("flasher_jumpscare_rare.png");
-  loaded_level++;
+  flasher                = load_image("the_flasher.png");
+  Flasher_jumpscare      = load_image("flasher_jumpscare.png");
+  Flasher_jumpscare_rare = load_image("flasher_jumpscare_rare.png");
   
-  edger = loadImage("ector_cam.jpg");
-  loaded_level++;
+  edger = load_image("ector_cam.jpg");
   
-  menu_background = loadImage("menu_background.png");
-  loaded_level++;
-  office          = loadImage("office_test.png");
-  loaded_level++;
-  left_door       = loadImage("left_door.png");
-  loaded_level++;
-  right_door      = loadImage("right_door.png");
-  loaded_level++;
-  camera          = loadImage(cam_path + "camera.png");
-  loaded_level++;
+  menu_background = load_image("menu_background.png");
+  office          = load_image("office_test.png");
+  left_door       = load_image("left_door.png");
+  right_door      = load_image("right_door.png");
+  camera          = load_image(cam_path + "camera.png");
   
-  ettore_at_left_door  = loadImage(ettore_path + "ettore_left_door.png");
-  loaded_level++;
-  ettore_at_right_door = loadImage(ettore_path + "ettore_right_door.png");
-  loaded_level++;
+  ettore_at_left_door  = load_image(ettore_path + "ettore_left_door.png");
+  ettore_at_right_door = load_image(ettore_path + "ettore_right_door.png");
 
-  cam_Bedroom     = loadImage(cam_path + "cam_bedroom.png");
-  loaded_level++;
-  cam_Livingroom  = loadImage(cam_path + "cam_livingroom.png");
-  loaded_level++;
-  cam_left_hall   = loadImage(cam_path + "cam_left_hall.png");
-  loaded_level++;
-  cam_right_hall  = loadImage(cam_path + "cam_right_hall.png");
-  loaded_level++;
-  cam_Bath_hall   = loadImage(cam_path + "cam_bath_hall.png");
-  loaded_level++;
-  cam_W_restroom  = loadImage(cam_path + "cam_w_restroom.png");
-  loaded_level++;
-  cam_M_restroom  = loadImage(cam_path + "cam_m_restroom.png");
-  loaded_level++;
-  cam_Serviceroom = loadImage(cam_path + "cam_service_room.png");
-  loaded_level++;
-  cam_Closet      = loadImage(cam_path + "cam_closet.png");
-  loaded_level++;
+  cam_Bedroom     = load_image(cam_path + "cam_bedroom.png");
+  cam_Livingroom  = load_image(cam_path + "cam_livingroom.png");
+  cam_left_hall   = load_image(cam_path + "cam_left_hall.png");
+  cam_right_hall  = load_image(cam_path + "cam_right_hall.png");
+  cam_Bath_hall   = load_image(cam_path + "cam_bath_hall.png");
+  cam_W_restroom  = load_image(cam_path + "cam_w_restroom.png");
+  cam_M_restroom  = load_image(cam_path + "cam_m_restroom.png");
+  cam_Serviceroom = load_image(cam_path + "cam_service_room.png");
+  cam_Closet      = load_image(cam_path + "cam_closet.png");
 
-  ettore_bedroom      = loadImage(cam_path + "cam_bedroom_ettore.png");
-  loaded_level++;
-  ettore_livingroom   = loadImage(cam_path + "cam_livingroom_ettore.png");
-  loaded_level++;
-  ettore_bath_hall    = loadImage(cam_path + "cam_bath_hall_ettore.png");
-  loaded_level++;
-  ettore_w_restroom   = loadImage(cam_path + "cam_w_restroom_ettore.png");
-  loaded_level++;
-  ettore_m_restroom   = loadImage(cam_path + "cam_m_restroom_ettore.png");
-  loaded_level++;
-  ettore_service_room = loadImage(cam_path + "cam_service_room_ettore.png");
-  loaded_level++;
-  ettore_closet       = loadImage(cam_path + "cam_closet_ettore.png");
-  loaded_level++;
-  ettore_left_hall    = loadImage(cam_path + "cam_left_hall_ettore.png");
-  loaded_level++;
-  ettore_right_hall   = loadImage(cam_path + "cam_right_hall_ettore.png");
-  loaded_level++;
-  ettore_left_door    = loadImage(cam_path + "cam_left_hall_ettore_lDoor.png");
-  loaded_level++;
-  ettore_right_door   = loadImage(cam_path + "cam_right_hall_ettore_rDoor.png");
-  loaded_level++;
+  ettore_bedroom      = load_image(cam_path + "cam_bedroom_ettore.png");
+  ettore_livingroom   = load_image(cam_path + "cam_livingroom_ettore.png");
+  ettore_bath_hall    = load_image(cam_path + "cam_bath_hall_ettore.png");
+  ettore_w_restroom   = load_image(cam_path + "cam_w_restroom_ettore.png");
+  ettore_m_restroom   = load_image(cam_path + "cam_m_restroom_ettore.png");
+  ettore_service_room = load_image(cam_path + "cam_service_room_ettore.png");
+  ettore_closet       = load_image(cam_path + "cam_closet_ettore.png");
+  ettore_left_hall    = load_image(cam_path + "cam_left_hall_ettore.png");
+  ettore_right_hall   = load_image(cam_path + "cam_right_hall_ettore.png");
+  ettore_left_door    = load_image(cam_path + "cam_left_hall_ettore_lDoor.png");
+  ettore_right_door   = load_image(cam_path + "cam_right_hall_ettore_rDoor.png");
 
-  ettore_jumpscare = loadImage(ettore_path + "ettore_jumpscare.jpg");
-  loaded_level++;
+  ettore_jumpscare = load_image(ettore_path + "ettore_jumpscare.jpg");
 
   assets_loaded = true;
   apply_resolution();
@@ -257,11 +211,12 @@ void game_settings() {
   text("Show FPS", width / 2 + width / 50, height / 4);
   noFill();
   
-  //volume
+  /*
+  // volume
   float min_vol_pos = width * (796 / 1920.f), 
         max_vol_pos = width * (1135 / 1920.f);
 
-  text("Volume", width / 2, height / 2.25);
+  text("Volume", width / 2, height / 2.25); 
   line(min_vol_pos, height / 2, max_vol_pos, height / 2);
   rect(volume_pos, height / 2, 20 * res_ratio, 20 * res_ratio);
 
@@ -272,13 +227,14 @@ void game_settings() {
     volume_pos = mouseX;
     volume = map(mouseX, min_vol_pos, max_vol_pos, 0, 2);
   }
+  */
   
   // framerate
-  text("Framerate", width * .475, height * .6);
-  text(framerate[chosen_framerate], width * .58, height * .6);
+  text("Framerate", width * .475, height / 3);
+  text(framerate[chosen_framerate], width * .58, height / 3);
   
   textSize(60 * res_ratio);
-  text("Back to Menu", width/2, height * .9);
+  text("Back to Menu", width / 2, height * .9);
 
   noStroke();
   // println("mvp: " + min_vol_pos + " Mvp: " + max_vol_pos);
@@ -304,10 +260,11 @@ void draw() {
   if (!assets_loaded) {
     background(0);
     fill(255);
-    text("LOADING...", width/2, height/2);
+    text("LOADING...", width / 2, height / 2);
 
     loading_bar(loaded_level);
-    
+    println("loaded: " + loaded_level);
+
     return;
   }
 

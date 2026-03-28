@@ -9,34 +9,41 @@ cam previous_cam_index;
 
 void cam_condition(cam target_cam) {
   if (target_cam != previous_cam_index) {
-    camera_swap.amp(volume);
     camera_swap.play();
 
     switch (target_cam) {
       case bedroom: 
         current_cam = cam.bedroom; 
         break;
+
       case livingroom: 
         current_cam = cam.livingroom; 
         break;
+
       case left_hall: 
         current_cam = cam.left_hall;
         break;
+
       case right_hall: 
         current_cam = cam.right_hall;
         break;
+
       case bath_hall: 
         current_cam = cam.bath_hall; 
         break;
+
       case m_restroom: 
         current_cam = cam.m_restroom; 
         break;
+
       case w_restroom: 
         current_cam = cam.w_restroom; 
         break;
+
       case service_room: 
         current_cam = cam.service_room; 
         break;
+
       case closet: 
         current_cam = cam.closet; 
         break;
@@ -111,51 +118,52 @@ void _camera() {
        
     case livingroom: 
       camera_overlay(cam_Livingroom);
-      text("cam_living_room", width * x_offset, height/9.75);
+      text("cam_living_room", width * x_offset, height / 9.75);
       break;
        
     case left_hall:
       camera_overlay(cam_left_hall);
-      text("cam_left_hall", width * x_offset, height/9.75);
+      text("cam_left_hall", width * x_offset, height / 9.75);
       break;
     
     case bath_hall:
       camera_overlay(cam_Bath_hall);
-      text("cam_bath_hall", width * x_offset, height/9.75);  
+      text("cam_bath_hall", width * x_offset, height / 9.75);  
       break;
 
     case m_restroom:
       camera_overlay(cam_M_restroom);
-      text("cam_m_restroom", width * x_offset, height/9.75);
+      text("cam_m_restroom", width * x_offset, height / 9.75);
       break;
 
     case w_restroom:
       camera_overlay(cam_W_restroom);
-      text("cam_w_restroom", width * x_offset, height/9.75);
+      text("cam_w_restroom", width * x_offset, height / 9.75);
       break;
 
     case service_room:
       camera_overlay(cam_Serviceroom);
-      text("cam_service_room", width * x_offset, height/9.75);
+      text("cam_service_room", width * x_offset, height / 9.75);
       break;
 
     case closet:
       camera_overlay(cam_Closet);
-      text("cam_closet", width * x_offset, height/9.75);
+      text("cam_closet", width * x_offset, height / 9.75);
       break;
     
     case right_hall:
       camera_overlay(cam_right_hall);
-      text("cam_right_hall", width * x_offset, height/9.75);
+      text("cam_right_hall", width * x_offset, height / 9.75);
       break;
 
     default: break;
   }
   noTint();
   textAlign(CENTER, CENTER);
-  image(camera, width/2, height/2, img_width/1.5, img_height);
+  image(camera, width / 2, height / 2, img_width / 1.5, img_height);
   
-  /*rectMode(LEFT);
+  /*
+  rectMode(LEFT);
   fill(0, 255, 0, 50);
 
   rect(width/(1920/348.f), height/(1080/445.f), width/(1920/514.f), height/(1080/498.f)); //bedroom
@@ -166,7 +174,8 @@ void _camera() {
   rect(width/(1920/618.f), height/(1080/636.f), width/(1920/768.f), height/(1080/715.f)); //service room
   rect(width/(1920/552.f), height/(1080/499.f), width/(1920/614.f), height/(1080/714.f)); //bathroom hall
   rect(width/(1920/618.f), height/(1080/522.f), width/(1920/767.f), height/(1080/572.f)); //women's restroom
-  rect(width/(1920/618.f), height/(1080/582.f), width/(1920/767.f), height/(1080/633.f)); //men's restroom*/
+  rect(width/(1920/618.f), height/(1080/582.f), width/(1920/767.f), height/(1080/633.f)); //men's restroom
+  */
 
   rectMode(CENTER);
 }

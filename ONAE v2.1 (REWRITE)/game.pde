@@ -1,27 +1,29 @@
 // folk folk folk sahur
 boolean ettore_attack = false, is_celebration = false;
-PImage office_scaled, ettore_left_scaled, ettore_right_scaled;
+PImage office_scaled, ettore_left_scaled, ettore_right_scaled, flasher_scaled;
 float ai_update_time = 0,
       ettore_timer = 0, ettore_cooldown = 0, ettore_attack_timer,
       ettore_max_attack_gap = 2000, ettore_jumpscare_timer,
       flasher_cooldown = 0, flasher_jumpscare_timer = 0,
       scale;
-byte ettore_chance = 21,
-     flasher_chance = 21,
-     edger_chance = 21;
-int ettore_ai, flasher_ai, edger_ai,
-    night_start_timer = 0,
+byte ettore_chance = 21,  ettore_ai,
+     flasher_chance = 21, flasher_ai,
+     edger_chance = 21,   edger_ai;
+int night_start_timer = 0,
     celebration_start_timer = 0;
 
 void scale_sprites() {
   office_scaled = office.copy();
-  office_scaled.resize(int(img_width), int(img_height));
+  office_scaled.resize((int)img_width, (int)img_height);
 
   ettore_left_scaled = ettore_at_left_door.copy();
-  ettore_left_scaled.resize(int(img_width), int(img_height));
+  ettore_left_scaled.resize((int)img_width, (int)img_height);
 
   ettore_right_scaled = ettore_at_right_door.copy();
-  ettore_right_scaled.resize(int(img_width), int(img_height));
+  ettore_right_scaled.resize((int)img_width, (int)img_height);
+
+  flasher_scaled = flasher.copy();
+  flasher_scaled.resize((int)img_width, (int)img_height);
 }
 
 void recall_scale() {
@@ -182,7 +184,7 @@ void update_ai() {
   if (millis() - ai_update_time > 2000) {
     ai_update_time = millis();
 
-    ettore_ai = (byte)(timer / 6 * 20) + 1;
+    ettore_ai = (byte)(timer / 6 * 20 + 1);
     ettore_max_attack_gap = 3500;
 
     // flasher_ai = int(timer);
@@ -194,7 +196,7 @@ void update_ai() {
   }
 }
 
-void draw_flasher(){
+void draw_flasher() {
   if (flasher_attack && !is_camera) {
     if (millis() - flasher_timer < 2000) {
       image(flasher, office_posx, office_posy, img_width * scale, img_height * scale);
@@ -208,7 +210,7 @@ void draw_flasher(){
 
   if (is_flasher_jumpscare) {
     if (!flasher_scream.isPlaying()) { flasher_scream.play(); }
-    image(Flasher_jumpscare_rare, width/2, height/2, img_width, img_height);
+    image(Flasher_jumpscare_rare, width / 2, height / 2, img_width, img_height);
 
     if(millis() - flasher_jumpscare_timer > 2000){
       reset();
