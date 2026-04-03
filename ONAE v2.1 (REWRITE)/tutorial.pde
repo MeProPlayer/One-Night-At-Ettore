@@ -5,13 +5,13 @@ void tutorial() { // brutto da vedere ma va bene così la duplicazione dei codic
   }
   office_posy = map(mouseY, 0, height, height/2 * cam_scale, height/2 / cam_scale); 
 
-  image(office, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+  draw_image(office, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
 
   if (left_door_on) {
-    image(left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+    draw_image(left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
   }
   if (right_door_on) {
-    image(right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+    draw_image(right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
   }
 
   if (is_camera) {

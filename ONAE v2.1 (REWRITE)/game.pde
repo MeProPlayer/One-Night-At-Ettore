@@ -1,14 +1,24 @@
 // folk folk folk sahur
-boolean ettore_attack = false, is_celebration = false;
+boolean ettore_attack = false, ettorina_attack = false, is_celebration = false;
 PImage office_scaled, ettore_left_scaled, ettore_right_scaled, flasher_scaled;
 float ai_update_time = 0,
+
       ettore_timer = 0, ettore_cooldown = 0, ettore_attack_timer,
       ettore_max_attack_gap = 2000, ettore_jumpscare_timer,
+
+      ettorina_timer = 0, ettorina_cooldown = 0,
+      ettorina_attack_timer,
+      ettorina_jumpscare_timer,
+
       flasher_cooldown = 0, flasher_jumpscare_timer = 0,
+
       scale;
-byte ettore_chance = 21,  ettore_ai,
-     flasher_chance = 21, flasher_ai,
-     edger_chance = 21,   edger_ai;
+
+byte ettore_chance   = 21, ettore_ai,
+     flasher_chance  = 21, flasher_ai,
+     edger_chance    = 21, edger_ai,
+     ettorina_chance = 21, ettorina_ai, ettorina_stage = 0;
+     
 int night_start_timer = 0,
     celebration_start_timer = 0;
 
@@ -46,6 +56,13 @@ void apply_resolution() {
   scale_sprites();
 }
 
+// we won't bother with drawing them when they're not seen. plus a trillion fps
+void draw_image(PImage image, float img_x, float img_y, float img_width, float img_height) {
+  if (!is_camera){
+    image(image, img_x, img_y, img_width, img_height);
+  }
+}
+
 void game() {
   timer = (millis() - night_start_timer) / (60000.f * 2);
   // println("TIMER: " + timer);
@@ -65,15 +82,29 @@ void game() {
     }
     ettore_cooldown = millis();
   }
+
+  if (millis() - ettorina_cooldown > ettorina_timer) {
+    ettorina_chance = (byte)(Math.random() * 21);
+
+    if (ettorina_chance <= ettorina_ai) {
+      if (ettorina_stage > 3) {
+        ettorina_attack = true;
+      }
+      else {
+        ettorina_stage++;
+      }
+    }
+    ettorina_cooldown = millis();
+  }
   
   // office position
   float cam_scale = 1.25;
   if (on_hitbox) {
-    office_posx = lerp(width - black_bar_offset * cam_scale/2, black_bar_offset * cam_scale/2, mouseX / (float)width);
+    office_posx = lerp(width - black_bar_offset * cam_scale / 2, black_bar_offset * cam_scale / 2, mouseX / (float)width);
   }
-  office_posy = map(mouseY, 0, height, height/2 * cam_scale, height/2 / cam_scale); 
+  office_posy = map(mouseY, 0, height, height / 2 * cam_scale, height / 2 / cam_scale); 
 
-  image(office, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+  draw_image(office, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
 
   //draw ettore at the doors
   switch (ettore_room) { // augh codice duplicato augh!
@@ -84,7 +115,7 @@ void game() {
         ettore_attack = true;
       }
 
-      image(ettore_at_left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+      draw_image(ettore_at_left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
       break;
 
     case right_door:
@@ -94,7 +125,7 @@ void game() {
         ettore_attack = true;
       }
 
-      image(ettore_at_right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+      draw_image(ettore_at_right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
       break;
 
     default: break;
@@ -109,13 +140,15 @@ void game() {
   
   // draw doors
   if (left_door_on) {
-    image(left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+    draw_image(left_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
   }
   if (right_door_on) {
-    image(right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
+    draw_image(right_door, office_posx, office_posy, img_width * cam_scale, img_height * cam_scale);
   }
 
-  draw_flasher();
+  if (!is_camera){
+    draw_flasher();
+  }
 
   if (is_camera) {
     if (flasher_attack) {
@@ -156,7 +189,7 @@ void game() {
     door_cooldown = millis() / 2000.f;
   }
 
-  // debug();
+  debug();
 
 }
 
@@ -174,8 +207,10 @@ void debug() {
   text("ettore_ai: "    + str(ettore_ai) + 
        "\nflasher_ai: " + str(flasher_ai) + 
        "\nedger_ai: "   + str(edger_ai) + 
+       "\netta_ai: "    + str(ettorina_ai) + 
+       "\netta_stg: "   + str(ettorina_stage) +
        "\n\n" + ettore_room,
-       width / 200, height / 10);
+       width / 200, height / 8);
 
   textAlign(CENTER, CENTER); // reset - soluzione temporanea
 }
@@ -192,7 +227,10 @@ void update_ai() {
 
     flasher_ai = (byte)(timer / 2 + 1);
 
+    ettorina_ai = (byte)((timer / 6 * 20 + 1) / 2);
+
     ettore_timer = map(timer, 0, 6, 3000, 1200);
+    ettorina_timer = ettore_timer;
   }
 }
 

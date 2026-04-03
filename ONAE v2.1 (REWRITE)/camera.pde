@@ -11,43 +11,7 @@ void cam_condition(cam target_cam) {
   if (target_cam != previous_cam_index) {
     camera_swap.play();
 
-    switch (target_cam) {
-      case bedroom: 
-        current_cam = cam.bedroom; 
-        break;
-
-      case livingroom: 
-        current_cam = cam.livingroom; 
-        break;
-
-      case left_hall: 
-        current_cam = cam.left_hall;
-        break;
-
-      case right_hall: 
-        current_cam = cam.right_hall;
-        break;
-
-      case bath_hall: 
-        current_cam = cam.bath_hall; 
-        break;
-
-      case m_restroom: 
-        current_cam = cam.m_restroom; 
-        break;
-
-      case w_restroom: 
-        current_cam = cam.w_restroom; 
-        break;
-
-      case service_room: 
-        current_cam = cam.service_room; 
-        break;
-
-      case closet: 
-        current_cam = cam.closet; 
-        break;
-    }
+    current_cam = target_cam;
 
     previous_cam_index = target_cam;
     previous_cam = (int)millis();

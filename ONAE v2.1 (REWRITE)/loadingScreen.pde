@@ -1,4 +1,5 @@
-byte loaded_level = 0;
+byte MAX_LOADED_LEVEL = 45,
+     loaded_level = 0;
 
 void loading_bar(byte level) {
     noFill();
@@ -10,7 +11,7 @@ void loading_bar(byte level) {
     rect(
         width / 2 - width / 8,
         height / 1.7 - height / 40,  
-        map(level, 0, 45, 0, width / 4),
+        map(level, 0, MAX_LOADED_LEVEL, 0, width / 4),
         height / 20
     );
 

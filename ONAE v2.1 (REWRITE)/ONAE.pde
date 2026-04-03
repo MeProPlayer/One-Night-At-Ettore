@@ -1,7 +1,5 @@
 /*
 TODO:
-  - funzione per immagini e gif e soundfiles per caricarli e aumentare la barretta 
-    (del capitalismo) del caricamento all'inizio dello schermo o yes
   - ettorina entity (maybe 4/20 mode exclusive but idk)
   - custom night (3 night challenges)
   - maybe secret cutscene for 4/20 mode
@@ -54,10 +52,10 @@ float res_ratio, img_width, img_height,
       black_bar_offset, office_posx, office_posy,
       volume_pos, camera_static_opacity;
       
-int constnt = 1000, previous_cam = 0,
+int previous_cam = 0,
     old_width;
 
-byte MAX_FRAME_COUNT = 6, chosen_framerate = 0;
+byte MAX_FRAME_COUNT = 6, chosen_framerate = 5;
 int[] framerate = new int[]{ 60, 75, 120, 144, 165, 240 }; // bless my java life
 
 enum state {
@@ -383,6 +381,7 @@ void reset() {
   ettore_attack = false;
   flasher_attack = false;
   edger_attack = false;
+  ettorina_attack = false;
   is_ettore_jumpscare = false;
   is_flasher_jumpscare = false;
   is_camera = false;
@@ -393,9 +392,11 @@ void reset() {
 
   ettore_chance = 21;
   flasher_chance = 21;
+  ettorina_chance = 21;
   flasher_timer = 0;
   flasher_jumpscare_timer = 0;
   flasher_cooldown = 0;
+  ettorina_timer = 0;
   edger_chance = 21;
   word = "";
   
